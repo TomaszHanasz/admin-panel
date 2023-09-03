@@ -1,4 +1,9 @@
-.App {
+html {
   background-color: #17212f;
   height: 100svh;
+}
+
+a {
+  text-decoration: none;
+  color: #495057;
 }

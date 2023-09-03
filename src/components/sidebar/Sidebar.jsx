@@ -2,37 +2,47 @@ import React, { useState } from "react";
 import { Sidebar } from "primereact/sidebar";
 import { Button } from "primereact/button";
 import { PanelMenu } from "primereact/panelmenu";
+import { Link } from "react-router-dom";
 
 export default function LeftSidebar(props) {
   const [visible, setVisible] = useState(false);
 
   const items = [
     {
-      label: "Dish",
-      icon: "pi pi-fw pi-file",
-      //   command: () => props.onClickChangeCard("Home"),
-      items: [
-        {
-          label: "Add",
-          icon: "pi pi-fw pi-plus",
-          command: () => props.onClickChangeCard("addDish"),
-        },
-        {
-          label: "Remove",
-          icon: "pi pi-fw pi-trash",
-          command: () => props.onClickChangeCard("removeDish"),
-        },
-      ],
+      label: (
+        <Link to="/addDish">
+          <span>
+            <i className="pi pi-fw pi-plus"></i> Add
+          </span>
+        </Link>
+      ),
     },
     {
-      label: "Edit",
-      icon: "pi pi-fw pi-pencil",
-      command: () => props.onClickChangeCard("editDish"),
+      label: (
+        <Link to="/remove-dish">
+          <span>
+            <i className="pi pi-fw pi-trash"></i> Remove
+          </span>
+        </Link>
+      ),
     },
     {
-      label: "Dish List",
-      icon: "pi pi-fw pi-list",
-      command: () => props.onClickChangeCard("dishList"),
+      label: (
+        <Link to="/edit-dish">
+          <span>
+            <i className="pi pi-fw pi-pencil"></i> Edit
+          </span>
+        </Link>
+      ),
+    },
+    {
+      label: (
+        <Link to="/dishList">
+          <span>
+            <i className="pi pi-fw pi-list"></i> Dish List
+          </span>
+        </Link>
+      ),
     },
   ];
 

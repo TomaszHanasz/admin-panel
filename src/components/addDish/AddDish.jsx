@@ -168,6 +168,8 @@ export default function AddDish() {
                   value={dish.price}
                   onValueChange={onChangeHandler}
                   name="price"
+                  minFractionDigits={2}
+                  maxFractionDigits={2}
                   required
                 />
               </div>
