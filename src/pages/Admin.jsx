@@ -13,7 +13,7 @@ const Admin = () => {
   return (
     <div>
       <LeftSidebar onClickChangeCard={onClickChangeCard} />
-      <Panel />
+      <Panel openedPanel={openedPanel} />
     </div>
   );
 };

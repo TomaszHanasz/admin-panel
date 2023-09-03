@@ -38,9 +38,20 @@ export default function AddDish() {
     setSelectedCategory(e.target.value);
   };
 
+  // add dish to db
+  const onClickAddDishToDatabase = async (newDish) => {
+    try {
+      const dishesCollection = collection(db, `${selectedCategory.name}`);
+      await addDoc(dishesCollection, newDish);
+      console.log(dishesCollection);
+    } catch (error) {
+      console.log("Error adding to database", error);
+    }
+  };
+
   // submit dish
-  const onSubmitHandler = (e) => {
-    // e.preventDefault();
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
     setDish(defaultDishValues);
     console.log(dish);
     const resetSelectedIngredients = () => {
@@ -48,6 +59,9 @@ export default function AddDish() {
     };
     resetSelectedIngredients();
     setImage("");
+    await onClickAddDishToDatabase(dish);
+    const updatedDishes = [...dishes, dish];
+    setDishes(updatedDishes);
   };
 
   //ingredients handling

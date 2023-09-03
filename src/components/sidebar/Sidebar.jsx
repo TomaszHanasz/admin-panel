@@ -10,7 +10,7 @@ export default function LeftSidebar(props) {
     {
       label: "Dish",
       icon: "pi pi-fw pi-file",
-      command: () => props.onClickChangeCard("Home"),
+      //   command: () => props.onClickChangeCard("Home"),
       items: [
         {
           label: "Add",
