@@ -1,0 +1,8 @@
+.sidebar__btn-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar__btn-group a {
+  width: 100%;
+}
