@@ -6,13 +6,7 @@ import { db } from "../../firebase-config";
 import { categories } from "../../data/categories";
 import DishDialog from "../dialog/Dialog";
 import useDishManagement from "../../hooks/useDishManagement";
-import {
-  collection,
-  doc,
-  getDocs,
-  addDoc,
-  deleteDoc,
-} from "firebase/firestore/lite";
+import { collection, doc, getDocs, deleteDoc } from "firebase/firestore/lite";
 import "./dishList.style.css";
 
 export default function DishList() {
@@ -43,8 +37,23 @@ export default function DishList() {
     getData();
   }, [selectedCategory]);
 
+  //delete dish
+  const deleteHandler = async (dishId) => {
+    try {
+      if (selectedCategory) {
+        await deleteDoc(doc(db, selectedCategory.name, dishId)); // Use selectedCategory directly
+        console.log("Dish deleted successfully");
+        getData(); // Refresh the data after deleting a dish
+      }
+    } catch (error) {
+      console.error("Error deleting dish:", error);
+    }
+    console.log(selectedCategory.name);
+    console.log(dishId);
+  };
+
   const itemTemplate = (dish) => {
-    const { name, ingredients, image, price, description } = dish;
+    const { name, ingredients, image, price, description, id } = dish;
 
     return (
       <>
@@ -67,6 +76,8 @@ export default function DishList() {
               image={image}
               ingredients={ingredients}
               description={description}
+              deleteHandler={deleteHandler}
+              id={id}
             />
           </div>
         </div>

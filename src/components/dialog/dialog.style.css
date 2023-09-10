@@ -4,5 +4,17 @@
 }
 
 .dialog__single-dish {
-  display: flex;
+  overflow-y: scroll;
+}
+
+.dish-list__dialog-ingredients {
+  list-style: inside;
+  margin-bottom: 10px;
+}
+
+.dish-dialog__image {
+  width: 300px;
+  object-fit: cover;
+  height: 300px;
+  margin-bottom: 10px;
 }

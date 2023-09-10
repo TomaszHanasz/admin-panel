@@ -8,6 +8,7 @@ const useDishManagement = () => {
     image: "",
     ingredients: [],
     hidden: false,
+    id: "",
   };
 
   const [dish, setDish] = useState(defaultDishValues);

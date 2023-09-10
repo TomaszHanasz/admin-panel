@@ -11,6 +11,8 @@
   display: block;
   margin: 0 auto;
   border-radius: 5px;
+  object-fit: cover;
+  max-height: 200px;
 }
 
 .dishlist__single-dish {

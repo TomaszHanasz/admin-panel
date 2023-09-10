@@ -9,14 +9,9 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { MultiSelect } from "primereact/multiselect";
 import { db, storage } from "../../firebase-config";
+import { v4 as uuidv4 } from "uuid";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import {
-  collection,
-  doc,
-  getDocs,
-  addDoc,
-  deleteDoc,
-} from "firebase/firestore/lite";
+import { collection, doc, getDocs, addDoc } from "firebase/firestore/lite";
 import "./addDish.style.css";
 import UploadImage from "../uploadImage/UploadImage";
 
@@ -51,16 +46,17 @@ export default function AddDish() {
 
   // submit dish
   const onSubmitHandler = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     setDish(defaultDishValues);
-    console.log(dish);
+    const newDish = { ...dish, id: uuidv4() };
+    await onClickAddDishToDatabase(newDish);
+    const updatedDishes = [...dishes, newDish];
     const resetSelectedIngredients = () => {
       setIngredients([]);
     };
+    console.log(newDish);
     resetSelectedIngredients();
     setImage("");
-    await onClickAddDishToDatabase(dish);
-    const updatedDishes = [...dishes, dish];
     setDishes(updatedDishes);
   };
 
