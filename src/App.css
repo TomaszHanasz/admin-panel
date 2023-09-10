@@ -7,3 +7,9 @@ a {
   text-decoration: none;
   color: #495057;
 }
+
+.panel__card {
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+}

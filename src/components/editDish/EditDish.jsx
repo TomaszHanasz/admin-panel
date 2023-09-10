@@ -6,19 +6,19 @@ import { InputNumber } from "primereact/inputnumber";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { db } from "../../firebase-config";
+import { classNames } from "primereact/utils";
 import { categories } from "../../data/categories";
+import { Checkbox } from "primereact/checkbox";
 import useDishManagement from "../../hooks/useDishManagement";
 import {
   collection,
   doc,
   getDocs,
   updateDoc,
-  addDoc,
   deleteDoc,
 } from "firebase/firestore/lite";
 
 export default function EditDish() {
-  const [products, setProducts] = useState(null);
   const { dishes, setDishes, dish, setDish } = useDishManagement();
   const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -26,7 +26,6 @@ export default function EditDish() {
     { field: "name", header: "Name" },
     { field: "price", header: "Price" },
     { field: "description", header: "Description" },
-    { field: "hidden", header: "Hidden" },
   ];
 
   //change category
@@ -53,32 +52,21 @@ export default function EditDish() {
     getData();
   }, [selectedCategory]);
 
-  const isPositiveInteger = (val) => {
-    let str = String(val);
+  const onRowEditComplete = async (e) => {
+    const { newData, index } = e;
+    const updatedDishes = [...dishes];
 
-    str = str.trim();
+    // Assuming that your `columns` array contains a field called 'id'
+    const docId = updatedDishes[index].id;
 
-    if (!str) {
-      return false;
-    }
+    updatedDishes[index] = newData;
 
-    str = str.replace(/^0+/, "") || "0";
-    let n = Math.floor(Number(str));
-
-    return n !== Infinity && String(n) === str && n >= 0;
-  };
-
-  const onCellEditComplete = async (e) => {
-    const { rowData, newValue, field } = e;
-
-    // Make sure to update the local state first
-    rowData[field] = newValue;
-    setDishes([...dishes]);
+    setDishes(updatedDishes);
 
     try {
       // Update the document in Firebase Firestore
-      const docRef = doc(db, selectedCategory.name, rowData.id);
-      await updateDoc(docRef, { [field]: newValue });
+      const docRef = doc(db, selectedCategory.name, docId);
+      await updateDoc(docRef, newData); // Update the entire document
     } catch (error) {
       console.error("Error updating document:", error);
     }
@@ -118,8 +106,28 @@ export default function EditDish() {
     }).format(rowData.price);
   };
 
+  const hiddenBodyTemplate = (rowData) => {
+    return (
+      <i
+        className={classNames("pi", {
+          "text-green-500 pi-check": rowData.hidden,
+          "text-red-500 pi-times": !rowData.hidden,
+        })}
+      ></i>
+    );
+  };
+
+  const hiddenEditor = (options) => {
+    return (
+      <Checkbox
+        checked={options.value}
+        onChange={(e) => options.editorCallback(e.checked)}
+      />
+    );
+  };
+
   return (
-    <div className="card p-fluid">
+    <div className="card">
       <div>
         <Dropdown
           value={selectedCategory}
@@ -133,8 +141,10 @@ export default function EditDish() {
       </div>
       <DataTable
         value={dishes}
-        editMode="cell"
+        editMode="row"
+        onRowEditComplete={onRowEditComplete}
         tableStyle={{ minWidth: "50rem" }}
+        dataKey="id"
       >
         {columns.map(({ field, header }) => {
           return (
@@ -145,10 +155,23 @@ export default function EditDish() {
               style={{ width: "25%" }}
               body={field === "price" && priceBodyTemplate}
               editor={(options) => cellEditor(options)}
-              onCellEditComplete={onCellEditComplete}
             />
           );
         })}
+        <Column
+          field="hidden"
+          header="Hidden"
+          dataType="boolean"
+          bodyClassName="text-center"
+          style={{ width: "10%" }}
+          body={hiddenBodyTemplate}
+          editor={(options) => hiddenEditor(options)}
+        />
+        <Column
+          rowEditor
+          headerStyle={{ width: "10%", minWidth: "8rem" }}
+          bodyStyle={{ textAlign: "center" }}
+        ></Column>
       </DataTable>
     </div>
   );

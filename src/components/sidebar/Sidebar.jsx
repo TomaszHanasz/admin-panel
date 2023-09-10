@@ -2,10 +2,23 @@ import React, { useState } from "react";
 import { Sidebar } from "primereact/sidebar";
 import { Button } from "primereact/button";
 import { Link } from "react-router-dom";
+import { UserAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import "./sidebar.style.css";
 
 export default function LeftSidebar(props) {
   const [visible, setVisible] = useState(false);
+  const { logOut } = UserAuth();
+  const navigate = useNavigate();
+
+  const handleLogOut = async () => {
+    try {
+      await logOut();
+      navigate("/");
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 
   return (
     <div className="card flex justify-content-center">
@@ -31,6 +44,16 @@ export default function LeftSidebar(props) {
               style={{ width: "100%" }}
             />
           </Link>
+          <Link to="/editList">
+            <Button
+              label="Edit dishes"
+              text
+              raised
+              severity="secondary"
+              icon="pi pi-file-edit"
+              style={{ width: "100%" }}
+            />
+          </Link>
           <Button
             label="Log Out"
             text
@@ -38,6 +61,7 @@ export default function LeftSidebar(props) {
             severity="secondary"
             icon="pi pi-sign-out"
             style={{ width: "100%" }}
+            onClick={handleLogOut}
           />
         </div>
       </Sidebar>

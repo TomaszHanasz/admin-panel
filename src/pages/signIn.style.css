@@ -1,0 +1,22 @@
+.sign-in__bg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.sign-in__card {
+  width: 20%;
+  margin: 0 auto;
+  height: 40%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.sign-in__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

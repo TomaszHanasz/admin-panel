@@ -1,12 +1,15 @@
 import LeftSidebar from "../components/sidebar/Sidebar";
 import Panel from "../components/panel/Panel";
-import React, { useState } from "react";
+import { Card } from "primereact/card";
+import React from "react";
 
 const Admin = () => {
   return (
     <div>
       <LeftSidebar />
-      <Panel />
+      <Card className="panel__card">
+        <Panel />
+      </Card>
     </div>
   );
 };
