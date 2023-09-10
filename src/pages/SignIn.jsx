@@ -49,6 +49,7 @@ const SignIn = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               toggleMask
+              feedback={false}
             />
           </div>
           {error && <p>{error}</p>}

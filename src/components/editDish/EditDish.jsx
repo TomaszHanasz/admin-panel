@@ -10,16 +10,10 @@ import { classNames } from "primereact/utils";
 import { categories } from "../../data/categories";
 import { Checkbox } from "primereact/checkbox";
 import useDishManagement from "../../hooks/useDishManagement";
-import {
-  collection,
-  doc,
-  getDocs,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore/lite";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 
 export default function EditDish() {
-  const { dishes, setDishes, dish, setDish } = useDishManagement();
+  const { dishes, setDishes } = useDishManagement();
   const [selectedCategory, setSelectedCategory] = useState(null);
 
   const columns = [
@@ -49,7 +43,7 @@ export default function EditDish() {
   };
 
   useEffect(() => {
-    getData();
+    getData(); // eslint-disable-next-line
   }, [selectedCategory]);
 
   const onRowEditComplete = async (e) => {
