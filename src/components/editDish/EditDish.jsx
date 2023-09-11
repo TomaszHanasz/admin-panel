@@ -9,12 +9,16 @@ import { db } from "../../firebase-config";
 import { classNames } from "primereact/utils";
 import { categories } from "../../data/categories";
 import { Checkbox } from "primereact/checkbox";
+import { ingredientsList } from "../../data/ingredients";
+import { MultiSelect } from "primereact/multiselect";
 import useDishManagement from "../../hooks/useDishManagement";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 
 export default function EditDish() {
   const { dishes, setDishes } = useDishManagement();
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [ingredients, setIngredients] = useState(null);
+  const [editedIngredients, setEditedIngredients] = useState([]);
 
   const columns = [
     { field: "name", header: "Name" },
@@ -25,6 +29,7 @@ export default function EditDish() {
   //change category
   const handleChangeCategory = (e) => {
     setSelectedCategory(e.target.value);
+    console.log(e.target.value);
   };
 
   // fetch dishes from db
@@ -46,15 +51,20 @@ export default function EditDish() {
     getData(); // eslint-disable-next-line
   }, [selectedCategory]);
 
+  const onRowEditInit = (event) => {
+    setEditedIngredients(event.data.ingredients || []);
+  };
+
   const onRowEditComplete = async (e) => {
     const { newData, index } = e;
     const updatedDishes = [...dishes];
 
-    // Assuming that your `columns` array contains a field called 'id'
     const docId = updatedDishes[index].id;
 
-    updatedDishes[index] = newData;
+    newData.ingredients = editedIngredients;
 
+    updatedDishes[index] = newData;
+    console.log(editedIngredients);
     setDishes(updatedDishes);
 
     try {
@@ -68,6 +78,7 @@ export default function EditDish() {
 
   const cellEditor = (options) => {
     if (options.field === "price") return priceEditor(options);
+    else if (options.field === "ingredients") return ingredientsEditor(options);
     else return textEditor(options);
   };
 
@@ -120,6 +131,24 @@ export default function EditDish() {
     );
   };
 
+  const onChangeSetIngredients = (e) => {
+    const selectedValue = e.value;
+    setIngredients(selectedValue);
+  };
+
+  const ingredientsEditor = (options) => {
+    return (
+      <MultiSelect
+        value={editedIngredients} // Use editedIngredients state for editing
+        options={ingredientsList}
+        optionLabel="name"
+        onChange={(e) => setEditedIngredients(e.value)}
+        placeholder="Select Ingredients"
+        className="add-dish__ingredients"
+      />
+    );
+  };
+
   return (
     <div className="card">
       <div>
@@ -137,6 +166,7 @@ export default function EditDish() {
         value={dishes}
         editMode="row"
         onRowEditComplete={onRowEditComplete}
+        onRowEditInit={onRowEditInit}
         tableStyle={{ minWidth: "50rem" }}
         dataKey="id"
       >
@@ -153,6 +183,15 @@ export default function EditDish() {
           );
         })}
         <Column
+          field="ingredients"
+          header="Ingredients"
+          style={{ width: "25%" }}
+          body={(rowData) =>
+            rowData.ingredients.map((ingredient) => ingredient.name).join(", ")
+          }
+          editor={(options) => ingredientsEditor(options)} // You can use a text editor for editing ingredients
+        />
+        <Column
           field="hidden"
           header="Hidden"
           dataType="boolean"
@@ -163,8 +202,9 @@ export default function EditDish() {
         />
         <Column
           rowEditor
-          headerStyle={{ width: "10%", minWidth: "8rem" }}
-          bodyStyle={{ textAlign: "center" }}
+          header="Edit"
+          headerStyle={{ width: "10%", minWidth: "8rem", textAlign: "center" }}
+          Style={{ textAlign: "center" }}
         ></Column>
       </DataTable>
     </div>

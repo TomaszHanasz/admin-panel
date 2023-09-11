@@ -24,16 +24,6 @@ export default function LeftSidebar() {
     <div className="card flex justify-content-center">
       <Sidebar visible={visible} onHide={() => setVisible(false)}>
         <div className="sidebar__btn-group">
-          <Link to="/addDish">
-            <Button
-              label="Add Dish"
-              text
-              raised
-              severity="secondary"
-              icon="pi pi-plus"
-              style={{ width: "100%" }}
-            />
-          </Link>
           <Link to="/dishList">
             <Button
               label="Dish list"
@@ -41,6 +31,16 @@ export default function LeftSidebar() {
               raised
               severity="secondary"
               icon="pi pi-list"
+              style={{ width: "100%" }}
+            />
+          </Link>
+          <Link to="/addDish">
+            <Button
+              label="Add Dish"
+              text
+              raised
+              severity="secondary"
+              icon="pi pi-plus"
               style={{ width: "100%" }}
             />
           </Link>
