@@ -11,7 +11,7 @@ import { MultiSelect } from "primereact/multiselect";
 import { db, storage } from "../../firebase-config";
 import { v4 as uuidv4 } from "uuid";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { collection, doc, getDocs, addDoc } from "firebase/firestore/lite";
+import { collection, addDoc } from "firebase/firestore/lite";
 import "./addDish.style.css";
 import UploadImage from "../uploadImage/UploadImage";
 
@@ -67,7 +67,7 @@ export default function AddDish() {
   };
 
   useEffect(() => {
-    setDish({ ...dish, ingredients });
+    setDish({ ...dish, ingredients }); // eslint-disable-next-line
   }, [ingredients]);
 
   //image upload
@@ -121,7 +121,7 @@ export default function AddDish() {
   };
 
   useEffect(() => {
-    setDish({ ...dish, image: image });
+    setDish({ ...dish, image: image }); // eslint-disable-next-line
   }, [image]);
 
   return (
