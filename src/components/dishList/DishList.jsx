@@ -37,7 +37,7 @@ export default function DishList() {
   };
 
   useEffect(() => {
-    getData();
+    getData(); // eslint-disable-next-line
   }, [selectedCategory]);
 
   //delete dish
