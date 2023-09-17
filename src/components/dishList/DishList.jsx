@@ -21,7 +21,10 @@ export default function DishList() {
   // fetch dishes from db
   const getData = async () => {
     try {
-      const data = collection(db, `${selectedCategory.name}`);
+      const data = collection(
+        db,
+        `${selectedCategory.name || selectedCategory}`
+      );
       const dishesSnapshot = await getDocs(data);
       const dishesData = dishesSnapshot.docs.map((el) => {
         return { ...el.data(), id: el.id };

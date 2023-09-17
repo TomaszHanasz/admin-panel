@@ -68,9 +68,8 @@ export default function EditDish() {
     setDishes(updatedDishes);
 
     try {
-      // Update the document in Firebase Firestore
       const docRef = doc(db, selectedCategory.name, docId);
-      await updateDoc(docRef, newData); // Update the entire document
+      await updateDoc(docRef, newData);
     } catch (error) {
       console.error("Error updating document:", error);
     }
@@ -131,15 +130,10 @@ export default function EditDish() {
     );
   };
 
-  const onChangeSetIngredients = (e) => {
-    const selectedValue = e.value;
-    setIngredients(selectedValue);
-  };
-
   const ingredientsEditor = (options) => {
     return (
       <MultiSelect
-        value={editedIngredients} // Use editedIngredients state for editing
+        value={editedIngredients}
         options={ingredientsList}
         optionLabel="name"
         onChange={(e) => setEditedIngredients(e.value)}
