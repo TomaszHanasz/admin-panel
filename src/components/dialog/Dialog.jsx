@@ -3,38 +3,21 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Toast } from "primereact/toast";
-import {
-  collection,
-  doc,
-  getDocs,
-  addDoc,
-  deleteDoc,
-} from "firebase/firestore/lite";
-import { db } from "../../firebase-config";
 import "./dialog.style.css";
 
 export default function DishDialog(props) {
-  const {
-    name,
-    price,
-    description,
-    ingredients,
-    image,
-    hidden,
-    deleteHandler,
-    id,
-  } = props;
+  const { name, description, ingredients, image, deleteHandler, id } = props;
   const [visible, setVisible] = useState(false);
   const toast = useRef(null);
 
-  const accept = () => {
-    toast.current.show({
-      severity: "info",
-      summary: "Removed",
-      detail: "Dish has been removed from database",
-      life: 3000,
-    });
-  };
+  // const accept = () => {
+  //   toast.current.show({
+  //     severity: "info",
+  //     summary: "Removed",
+  //     detail: "Dish has been removed from database",
+  //     life: 3000,
+  //   });
+  // };
 
   const reject = () => {
     toast.current.show({
@@ -70,7 +53,7 @@ export default function DishDialog(props) {
         onHide={() => setVisible(false)}
         className="dialog__single-dish"
       >
-        <img src={image} className="dish-dialog__image" />
+        <img src={image} className="dish-dialog__image" alt="dish" />
         <h4>Description:</h4>
         <p style={{ marginBottom: 10 }}>{description}</p>
         <h4>Ingredients:</h4>

@@ -17,7 +17,6 @@ import { collection, doc, getDocs, updateDoc } from "firebase/firestore/lite";
 export default function EditDish() {
   const { dishes, setDishes } = useDishManagement();
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [ingredients, setIngredients] = useState(null);
   const [editedIngredients, setEditedIngredients] = useState([]);
 
   const columns = [
