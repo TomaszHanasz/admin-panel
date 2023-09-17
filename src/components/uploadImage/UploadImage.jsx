@@ -27,7 +27,13 @@ export default function UploadImage(props) {
         {uploadProgress > 0 && (
           <div>Upload Progress: {uploadProgress.toFixed(2)}%</div>
         )}
-        {image && <img src={image} className="add-dish__preview-img" />}
+        {image && (
+          <img
+            src={image}
+            className="add-dish__preview-img"
+            alt="preview dish"
+          />
+        )}
       </div>
     </div>
   );
