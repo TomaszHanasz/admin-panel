@@ -21,13 +21,13 @@ export default function DishList() {
   // fetch dishes from db
   const getData = async () => {
     try {
-      const data = collection(db, `${selectedCategory.name.toLowerCase()}`);
+      const data = collection(db, `${selectedCategory.name}`);
       const dishesSnapshot = await getDocs(data);
       const dishesData = dishesSnapshot.docs.map((el) => {
         return { ...el.data(), id: el.id };
       });
       setDishes(dishesData);
-      console.log(selectedCategory.name.toLowerCase());
+      console.log(selectedCategory.name);
     } catch (error) {
       console.log(error);
     }

@@ -46,7 +46,7 @@ export default function AddDish() {
 
   // submit dish
   const onSubmitHandler = async (e) => {
-    // e.preventDefault();
+    e.preventDefault();
     setDish(defaultDishValues);
     const newDish = { ...dish, id: uuidv4() };
     await onClickAddDishToDatabase(newDish);
@@ -193,6 +193,7 @@ export default function AddDish() {
                   placeholder="Select Ingredients"
                   maxSelectedLabels={10}
                   className="add-dish__ingredients"
+                  style={{ maxWidth: "100%" }}
                 />
               </div>
             </div>
