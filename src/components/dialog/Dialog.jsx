@@ -10,15 +10,6 @@ export default function DishDialog(props) {
   const [visible, setVisible] = useState(false);
   const toast = useRef(null);
 
-  // const accept = () => {
-  //   toast.current.show({
-  //     severity: "info",
-  //     summary: "Removed",
-  //     detail: "Dish has been removed from database",
-  //     life: 3000,
-  //   });
-  // };
-
   const reject = () => {
     toast.current.show({
       severity: "warn",

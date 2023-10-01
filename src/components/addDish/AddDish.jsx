@@ -18,6 +18,7 @@ import UploadImage from "../uploadImage/UploadImage";
 export default function AddDish() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [ingredients, setIngredients] = useState(null);
+  const fileInputRef = useRef(null);
 
   const {
     dish,
@@ -74,6 +75,7 @@ export default function AddDish() {
   const toast = useRef(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [image, setImage] = useState("");
+  const [isFileInputVisible, setIsFileInputVisible] = useState(true);
 
   const isImageUploaded = !!image;
 
@@ -112,6 +114,10 @@ export default function AddDish() {
             });
             setImage(downloadURL);
             setDish({ ...dish, image: downloadURL });
+            setIsFileInputVisible(false);
+            setTimeout(() => {
+              setIsFileInputVisible(true);
+            }, 100);
           })
           .catch((error) => {
             console.error("Error getting download URL:", error);
@@ -193,19 +199,22 @@ export default function AddDish() {
                   placeholder="Select Ingredients"
                   maxSelectedLabels={10}
                   className="add-dish__ingredients"
-                  style={{ maxWidth: "100%" }}
+                  style={{ maxWidth: 500 }}
                 />
               </div>
             </div>
           </div>
-          <div className="add-dish__right">
-            <UploadImage
-              onUpload={onUpload}
-              image={image}
-              uploadProgress={uploadProgress}
-              toast={toast}
-            />
-          </div>
+          {isFileInputVisible && (
+            <div className="add-dish__right">
+              <UploadImage
+                onUpload={onUpload}
+                image={image}
+                uploadProgress={uploadProgress}
+                toast={toast}
+                ref={fileInputRef}
+              />
+            </div>
+          )}
           <Button
             label="Submit"
             className="add-dish__submit-btn"

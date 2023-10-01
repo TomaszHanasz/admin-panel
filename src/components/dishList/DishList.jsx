@@ -27,7 +27,6 @@ export default function DishList() {
         return { ...el.data(), id: el.id };
       });
       setDishes(dishesData);
-      console.log(selectedCategory.name);
     } catch (error) {
       console.log(error);
     }
@@ -48,8 +47,6 @@ export default function DishList() {
     } catch (error) {
       console.error("Error deleting dish:", error);
     }
-    console.log(selectedCategory.name);
-    console.log(dishId);
   };
 
   const itemTemplate = (dish) => {
